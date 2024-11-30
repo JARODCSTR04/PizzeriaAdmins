@@ -7,60 +7,80 @@ use Illuminate\Http\Request;
 
 class EmpleadosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $datos['empleados']=Empleado::paginate(5);
+        $datos['empleados']=Empleado::paginate(4);
         return view('empleados.index',$datos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('empleados.create');
+        return view('empleados.create', compact('empleados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:2048',
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
+            'email' => 'required|email',
+            'telefono' => 'required|numeric',
+            'direccion' => 'required|string|max:255',
+            'salario' => 'required|numeric',
+            'fecha_contratacion' => 'required|date',
+        ]);
+
+        $datosEmpleado = request()->except('_token');
+        $imagen = $request->file('foto');
+        if ($imagen && $imagen->isValid()) {
+            $rutaCarpeta = 'storage/uploads';
+            $nombreImagen = $imagen->getClientOriginalName();
+            $request->file('foto')->move($rutaCarpeta, $nombreImagen);
+            $datosEmpleado['foto'] = $nombreImagen;
+        }
+
+        Empleado::insert($datosEmpleado);
+        return redirect()->route('empleados.index')->with('success', 'Empleado registrado con éxito.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $empleado = Empleado::findOrFail($id);
+        return view('empleados.edit', compact('empleado'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:2048',
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
+            'email' => 'required|email',
+            'telefono' => 'required|numeric',
+            'direccion' => 'required|string|max:255',
+            'salario' => 'required|numeric',
+            'fecha_contratacion' => 'required|date',
+        ]);
+
+        $datosEmpleado = request()->except(['_token', '_method']);
+        $imagen = $request->file('foto');
+        if ($imagen && $imagen->isValid()) {
+            $rutaCarpeta = 'storage/uploads';
+            $nombreImagen = $imagen->getClientOriginalName();
+            $request->file('foto')->move($rutaCarpeta, $nombreImagen);
+            $datosEmpleado['foto'] = $nombreImagen;
+        }
+
+        Empleado::where('ID','=',$id)->update($datosEmpleado);
+        $empleado = Empleado::findOrFail($id);
+        return redirect()->route('empleados.index')->with('success', 'Empleado actualizado con éxito.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        Empleado::where('ID','=',$id)->delete();
+        return redirect('empleados');
     }
 }

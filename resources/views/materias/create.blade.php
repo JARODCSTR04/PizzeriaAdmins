@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registrar empleado</title>
+    <title>Registrar materia</title>
 </head>
 
 <body>
@@ -20,9 +20,9 @@
             </ul>
         </div>
     @endif
-    <form style="background-color: #4e4e51; padding: 2rem; border-radius:9px;" action="{{URL('/empleados')}}" enctype="multipart/form-data" method="POST" class="max-w-sm mx-auto text-center mt-5">
+    <form style="background-color: #4e4e51; padding: 2rem; border-radius:9px;" action="{{URL('/materias')}}" enctype="multipart/form-data" method="POST" class="max-w-sm mx-auto text-center mt-5">
         @csrf
-        @include('empleados.form')
+        @include('materias.form')
     </form>
 </body>
 </html>

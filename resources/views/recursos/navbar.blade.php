@@ -76,7 +76,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <form action="{{route('logout')}}" method="POST">
+                                @csrf
+                                <button type="submit"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                                 role="menuitem">
                                 <div class="inline-flex items-center">
@@ -88,7 +90,8 @@
                                     </svg>
                                     Cerrar Sesión
                                 </div>
-                            </a>
+                            </button>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -119,18 +122,24 @@
                             Empleados
                         </a>
                     </li>
-                    {{-- <li>
-                        <a href="{{route('cliente')}}"
+                    <li>
+                        <a href="{{route('materia')}}"
                             class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                            Clientes
+                            Materias Primas
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('pedidos')}}"
+                        <a href="{{route('categoria')}}"
                             class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                            Pedidos
+                            Categorías
                         </a>
-                    </li> --}}
+                    </li>
+                    <li>
+                        <a href="{{route('pedido')}}"
+                            class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                            Pedidos de PayPal
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

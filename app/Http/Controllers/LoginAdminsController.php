@@ -19,6 +19,15 @@ class LoginAdminsController extends Controller
             return redirect()->route('productos.index');
         } else {
             return redirect('/');
-        }        
+        }
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 }
